@@ -1,28 +1,25 @@
 ﻿using MvcMovie.DAL;
 using MvcMovie.Models;
 using System.Collections.Generic;
-using System.Linq;
+using System.ComponentModel;
+using System.Web.Mvc;
 
 namespace MvcMovie.ViewModels
 {
     public class MoviesViewModel
     {
-        IMoviesRepository _moviesRepository;
+        [DisplayName("Movies")]
+        public List<Movie> AllMovies { get; set; }
+        [DisplayName("Actors")]
+        public List<Actor> AllActors { get; set; }
 
-        public List<Movie> Movies { get; private set; }
+
         public Movie Movie { get; set; }
 
-        public MoviesViewModel(IMoviesRepository moviesRepository)
-        {
-            _moviesRepository = moviesRepository;
-            Movies = moviesRepository.FindAll();
+        public IEnumerable<int> SelectedActors { get; set; }
+        public IEnumerable<SelectListItem> Actors { get; set; }
 
-            foreach (Movie m in Movies)
-            {
-                m.Actors = _moviesRepository.GetActorsOfMovie(m);
-            }
+        public string CheckboxesName => "Actors";
 
-            Movie = new Movie();
-        }
     }
 }

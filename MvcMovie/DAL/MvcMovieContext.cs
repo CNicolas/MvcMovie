@@ -8,7 +8,7 @@ namespace MvcMovie.DAL
     {
         public DbSet<Movie> Movies { get; set; }
         public DbSet<Actor> Actors { get; set; }
-        public DbSet<ActorMovie> ActorsMovies { get; set; }
+        public DbSet<MovieActor> MovieActors { get; set; }
 
         public MvcMovieContext() : base("MvcMovieDatabaseConnection")
         {

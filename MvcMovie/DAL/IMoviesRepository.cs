@@ -6,5 +6,7 @@ namespace MvcMovie.DAL
     public interface IMoviesRepository : IRepository<Movie>
     {
         List<Actor> GetActorsOfMovie(Movie m);
+
+        bool CreateMovie(Movie m);
     }
 }

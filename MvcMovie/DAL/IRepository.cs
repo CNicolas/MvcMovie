@@ -7,5 +7,7 @@ namespace MvcMovie.DAL
         List<T> FindAll();
 
         T FindById(int id);
+
+        List<T> FindByIds(IEnumerable<int> ids);
     }
 }
