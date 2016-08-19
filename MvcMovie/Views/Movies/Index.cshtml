@@ -1,4 +1,5 @@
 ﻿@using MvcMovie.Models
+@using MvcMovie.DTO
 
 @model MvcMovie.ViewModels.MoviesViewModel
 
@@ -14,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (Movie movie in @Model.AllMovies)
+            @foreach (MovieDto movie in @Model.AllMovies)
             {
                 <tr>
                     <td>@movie.Name</td>
@@ -46,22 +47,22 @@
             @Html.LabelFor(model => Model.Movie.Realisator)
             @Html.TextBoxFor(model => Model.Movie.Realisator, new { @class = "form-control" })
         </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Movie.Date)
-            @Html.TextBoxFor(model => Model.Movie.Date, new { @class = "form-control", @type = "date" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => Model.Movie.Genre)
-            @Html.TextBoxFor(model => Model.Movie.Genre, new { @class = "form-control" })
-        </div>
-        <div class="form-group">
-            @*@Html.CheckBoxListFor(model => model.CheckboxesName,
-                model => Model.AllActors,
-                entity => entity.Id,
-                entity => entity.Fullname,
-                model => model.Actors)*@
-            @Html.ListBoxFor(m => m.SelectedActors, Model.Actors, new { @class = "selectpicker", @multiple = "true" })
-        </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+            <div class="form-group">
+                @Html.LabelFor(model => Model.Movie.Date)
+                @Html.TextBoxFor(model => Model.Movie.Date, new { @class = "form-control", @type = "date" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => Model.Movie.Genre)
+                @Html.TextBoxFor(model => Model.Movie.Genre, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                @*@Html.CheckBoxListFor(model => model.CheckboxesName,
+                    model => Model.AllActors,
+                    entity => entity.Id,
+                    entity => entity.Fullname,
+                    model => model.Actors)*@
+                @Html.ListBoxFor(m => m.SelectedActors, Model.Actors, new { @class = "selectpicker", @multiple = "true" })
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
     }
 </div>

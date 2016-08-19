@@ -9,9 +9,9 @@ namespace MvcMovie.Models
         public int ActorId { get; set; }
         public int MovieId { get; set; }
 
-        [ForeignKey(nameof(ActorId))]
+        //[ForeignKey(nameof(ActorId))]
         public virtual Actor Actor { get; set; }
-        [ForeignKey(nameof(MovieId))]
+        //[ForeignKey(nameof(MovieId))]
         public virtual Movie Movie { get; set; }
     }
 }

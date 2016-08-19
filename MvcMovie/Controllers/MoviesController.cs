@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using MvcMovie.DAL;
+using MvcMovie.DTO;
 using MvcMovie.Models;
 using MvcMovie.ViewModels;
 using System.Linq;
@@ -12,11 +13,13 @@ namespace MvcMovie.Controllers
     {
         IMoviesRepository _moviesRepository;
         IActorsRepository _actorsRepository;
+        IMovieActorRepository _movieActorRepository;
 
-        public MoviesController(IMoviesRepository moviesRepository, IActorsRepository actorsRepository)
+        public MoviesController(IMoviesRepository moviesRepository, IActorsRepository actorsRepository, IMovieActorRepository movieActorRepository)
         {
             _moviesRepository = moviesRepository;
             _actorsRepository = actorsRepository;
+            _movieActorRepository = movieActorRepository;
         }
 
         // GET: Movies
@@ -34,8 +37,12 @@ namespace MvcMovie.Controllers
                 return View(viewModel);
             }
 
-            viewModel.Movie.Actors = _actorsRepository.FindByIds(viewModel.SelectedActors);
             _moviesRepository.CreateMovie(viewModel.Movie);
+            foreach (int aId in viewModel.SelectedActors)
+            {
+                var ma = new MovieActor() { MovieId = viewModel.Movie.Id, ActorId = aId };
+                _movieActorRepository.CreateMovieActor(ma);
+            }
 
             var newViewModel = CreateMoviesViewModel();
             return View("Index", newViewModel);
@@ -44,12 +51,12 @@ namespace MvcMovie.Controllers
         private MoviesViewModel CreateMoviesViewModel()
         {
             var viewModel = new MoviesViewModel();
-            viewModel.AllMovies = _moviesRepository.FindAll();
+            viewModel.AllMovies = _moviesRepository.FindAll().Select(m => new MovieDto(m)).ToList();
             viewModel.AllActors = _actorsRepository.FindAll();
 
-            foreach (Movie m in viewModel.AllMovies)
+            foreach (MovieDto m in viewModel.AllMovies)
             {
-                m.Actors = _moviesRepository.GetActorsOfMovie(m);
+                m.Actors = _moviesRepository.GetActorsOfMovie(m.Movie);
             }
 
             viewModel.Actors = _actorsRepository.FindAll().Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Fullname }).ToList();

@@ -32,6 +32,7 @@ namespace MvcMovie
         {
             var builder = new ContainerBuilder();
 
+            builder.RegisterType<MovieActorRepository>().As<IMovieActorRepository>().SingleInstance();
             builder.RegisterType<MoviesRepository>().As<IMoviesRepository>().SingleInstance();
             builder.RegisterType<ActorsRepository>().As<IActorsRepository>().SingleInstance();
 

@@ -1,4 +1,5 @@
 ﻿using MvcMovie.DAL;
+using MvcMovie.DTO;
 using MvcMovie.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,7 @@ namespace MvcMovie.ViewModels
     public class MoviesViewModel
     {
         [DisplayName("Movies")]
-        public List<Movie> AllMovies { get; set; }
+        public List<MovieDto> AllMovies { get; set; }
         [DisplayName("Actors")]
         public List<Actor> AllActors { get; set; }
 
