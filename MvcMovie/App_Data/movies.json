@@ -1,0 +1,30 @@
+﻿[
+  {
+    "Id": 1,
+    "Name": "Le Seigneur des Anneaux",
+    "Realisator": "Peter Jackson",
+    "Date": "12-19-2001",
+    "Genre": "Fantasy"
+  },
+  {
+    "Id": 2,
+    "Name": "Pirate des Caraïbes",
+    "Realisator": "Gore Verbinski",
+    "Date": "07-09-2003",
+    "Genre": "Fantasy"
+  },
+  {
+    "Id": 3,
+    "Name": "The Avengers",
+    "Realisator": "Joss Whedon",
+    "Date": "05-04-2012",
+    "Genre": "Super-Hero"
+  },
+  {
+    "Id": 4,
+    "Name": "Sherlock Holmes",
+    "Realisator": "Guy Ritchie",
+    "Date": "12-26-2009",
+    "Genre": "Action"
+  }
+]

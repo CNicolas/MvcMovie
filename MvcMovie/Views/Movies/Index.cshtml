@@ -1,0 +1,36 @@
+﻿@using MvcMovie.Models
+
+@model MvcMovie.ViewModels.MoviesViewModel
+
+<div class="row">
+    <table class="table table-striped table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Realisator</th>
+                <th>Date</th>
+                <th>Genre</th>
+                <th>Actors</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (Movie movie in @Model.Movies)
+            {
+                <tr>
+                    <td>@movie.Name</td>
+                    <td>@movie.Realisator</td>
+                    <td>@movie.Date</td>
+                    <td>@movie.Genre</td>
+                    <td>
+                        <ul>
+                            @foreach (Actor a in @movie.Actors)
+                            {
+                                <li>@a.Fullname</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
