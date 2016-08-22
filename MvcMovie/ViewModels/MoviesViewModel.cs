@@ -1,5 +1,4 @@
-﻿using MvcMovie.DAL;
-using MvcMovie.DTO;
+﻿using MvcMovie.DTO;
 using MvcMovie.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +17,6 @@ namespace MvcMovie.ViewModels
         public Movie Movie { get; set; }
 
         public IEnumerable<int> SelectedActors { get; set; }
-        public IEnumerable<SelectListItem> Actors { get; set; }
 
         public string CheckboxesName => "Actors";
 

@@ -2,6 +2,7 @@
 using MvcMovie.DTO;
 using MvcMovie.Models;
 using MvcMovie.ViewModels;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -25,6 +26,13 @@ namespace MvcMovie.Controllers
         {
             var viewModel = CreateMoviesViewModel();
             return View(viewModel);
+        }
+
+        [HttpGet]
+        public ActionResult AddMovie()
+        {
+            var model = new AddMovieViewModel() { Actors = GetAllActorsAsSelectedListItem() };
+            return PartialView(model);
         }
 
         [HttpPost]
@@ -60,8 +68,12 @@ namespace MvcMovie.Controllers
                 m.Actors = _movieActorRepository.GetActorsOfMovie(m.Movie);
             }
 
-            viewModel.Actors = _actorsRepository.FindAll().Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Fullname }).ToList();
             return viewModel;
+        }
+
+        private IEnumerable<SelectListItem> GetAllActorsAsSelectedListItem()
+        {
+            return _actorsRepository.FindAll().Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Fullname });
         }
 
         #endregion

@@ -36,37 +36,23 @@
     </table>
 </div>
 
-<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addMovieModal">Add Movie</button>
+<button id="addMovieButton" type="button" class="btn btn-primary">Add Movie</button>
 
 
-<div id="addMovieModal" class="modal fade" tabindex="-1" role="form">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                @using (@Html.BeginForm("AddMovie", "Movies", FormMethod.Post))
-            {
-                    <div class="form-group">
-                        @Html.LabelFor(model => Model.Movie.Name)
-                        @Html.TextBoxFor(model => Model.Movie.Name, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => Model.Movie.Realisator)
-                        @Html.TextBoxFor(model => Model.Movie.Realisator, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => Model.Movie.Date)
-                        @Html.TextBoxFor(model => Model.Movie.Date, new { @class = "form-control", @type = "date" })
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(model => Model.Movie.Genre)
-                        @Html.TextBoxFor(model => Model.Movie.Genre, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        @Html.ListBoxFor(m => m.SelectedActors, Model.Actors, new { @class = "selectpicker", @multiple = "true" })
-                    </div>
-                    <button type="submit" class="btn btn-default">Submit</button>
-                }
-            </div>
-        </div>
-    </div>
+<div id="addMovieModal" class="modal fade" tabindex="-1" role="form" data-url='@Url.Action("AddMovie")'>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#addMovieButton').click(function () {
+                var url = $('#addMovieModal').data('url');
+
+                $.get(url, function (data) {
+                    $('#addMovieModal').html(data).modal('show');
+                });
+            });
+        });
+    </script>
+}
