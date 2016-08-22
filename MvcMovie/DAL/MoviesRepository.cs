@@ -30,14 +30,6 @@ namespace MvcMovie.DAL
             }
         }
 
-        public List<Actor> GetActorsOfMovie(Movie m)
-        {
-            using (MvcMovieContext ctx = new MvcMovieContext())
-            {
-                var actorIds = ctx.MovieActors.Where(am => am.MovieId == m.Id).Select(am => am.ActorId);
-                return ctx.Actors.Where(a => actorIds.Contains(a.Id)).ToList();
-            }
-        }
 
         public bool CreateMovie(Movie m)
         {

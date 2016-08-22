@@ -1,10 +1,8 @@
-﻿using Autofac;
-using MvcMovie.DAL;
+﻿using MvcMovie.DAL;
 using MvcMovie.DTO;
 using MvcMovie.Models;
 using MvcMovie.ViewModels;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace MvcMovie.Controllers
@@ -22,7 +20,7 @@ namespace MvcMovie.Controllers
             _movieActorRepository = movieActorRepository;
         }
 
-        // GET: Movies
+        [HttpGet]
         public ActionResult Index()
         {
             var viewModel = CreateMoviesViewModel();
@@ -48,6 +46,9 @@ namespace MvcMovie.Controllers
             return View("Index", newViewModel);
         }
 
+
+        #region Private Methods
+
         private MoviesViewModel CreateMoviesViewModel()
         {
             var viewModel = new MoviesViewModel();
@@ -56,11 +57,13 @@ namespace MvcMovie.Controllers
 
             foreach (MovieDto m in viewModel.AllMovies)
             {
-                m.Actors = _moviesRepository.GetActorsOfMovie(m.Movie);
+                m.Actors = _movieActorRepository.GetActorsOfMovie(m.Movie);
             }
 
             viewModel.Actors = _actorsRepository.FindAll().Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Fullname }).ToList();
             return viewModel;
         }
+
+        #endregion
     }
 }
