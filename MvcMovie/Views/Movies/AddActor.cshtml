@@ -1,0 +1,40 @@
+﻿@model MvcMovie.ViewModels.AddActorViewModel
+
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add an actor</h4>
+        </div>
+        <div class="modal-body">
+            @using (@Html.BeginForm("AddActor", "Movies", FormMethod.Post))
+            {
+                <div class="form-group">
+                    @Html.LabelFor(model => Model.Actor.Fullname)
+                    @Html.TextBoxFor(model => Model.Actor.Fullname, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.ListBoxFor(model => Model.SelectedMovies, Model.Movies, new { @class = "form-control", @multiple = "multiple" })
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            }
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+{
+    <script type="text/javascript">
+        $.ajax({
+            type: "POST",
+            data: formData,
+            url: "/Forms/GetJobData",
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            error: function (response) {
+                alert(response.errorMessage);
+            }
+        });
+    </script>
+}

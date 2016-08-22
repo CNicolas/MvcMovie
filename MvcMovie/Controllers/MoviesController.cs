@@ -24,9 +24,20 @@ namespace MvcMovie.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            var viewModel = CreateMoviesViewModel();
+            var viewModel = new MoviesViewModel();
+            viewModel.AllMovies = _moviesRepository.FindAll().Select(m => new MovieDto(m)).ToList();
+            viewModel.AllActors = _actorsRepository.FindAll();
+
+            foreach (MovieDto m in viewModel.AllMovies)
+            {
+                m.Actors = _movieActorRepository.GetActorsOfMovie(m.Movie);
+            }
+
             return View(viewModel);
         }
+
+
+        #region Add Movie
 
         [HttpGet]
         public ActionResult AddMovie()
@@ -44,36 +55,70 @@ namespace MvcMovie.Controllers
             }
 
             _moviesRepository.CreateMovie(viewModel.Movie);
-            foreach (int aId in viewModel.SelectedActors)
+
+            if (viewModel.SelectedActors != null)
             {
-                var ma = new MovieActor() { MovieId = viewModel.Movie.Id, ActorId = aId };
-                _movieActorRepository.CreateMovieActor(ma);
+                foreach (int aId in viewModel.SelectedActors)
+                {
+                    var ma = new MovieActor() { MovieId = viewModel.Movie.Id, ActorId = aId };
+                    _movieActorRepository.CreateMovieActor(ma);
+                }
             }
 
-            var newViewModel = CreateMoviesViewModel();
-            return View("Index", newViewModel);
+            return Redirect("Index");
         }
+
+        #endregion
+
+
+        #region Add Actor
+
+        [HttpGet]
+        public ActionResult AddActor()
+        {
+            var model = new AddActorViewModel() { Movies = GetAllMoviesAsSelectedListItem() };
+            return PartialView(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddActor(AddActorViewModel viewModel)
+        {
+            if (!ModelState.IsValid || viewModel.Actor == null)
+            {
+                return View(viewModel);
+            }
+
+            var successfullyAdded = _actorsRepository.CreateActor(viewModel.Actor);
+            if (!successfullyAdded)
+            {
+                return Json(new { success = false, errorMessage = "Update Error" }, JsonRequestBehavior.AllowGet);
+            }
+
+            if (viewModel.SelectedMovies != null)
+            {
+                foreach (int mId in viewModel.SelectedMovies)
+                {
+                    var ma = new MovieActor() { ActorId = viewModel.Actor.Id, MovieId = mId };
+                    _movieActorRepository.CreateMovieActor(ma);
+                }
+            }
+
+            return Redirect("Index");
+        }
+
+        #endregion
 
 
         #region Private Methods
 
-        private MoviesViewModel CreateMoviesViewModel()
-        {
-            var viewModel = new MoviesViewModel();
-            viewModel.AllMovies = _moviesRepository.FindAll().Select(m => new MovieDto(m)).ToList();
-            viewModel.AllActors = _actorsRepository.FindAll();
-
-            foreach (MovieDto m in viewModel.AllMovies)
-            {
-                m.Actors = _movieActorRepository.GetActorsOfMovie(m.Movie);
-            }
-
-            return viewModel;
-        }
-
         private IEnumerable<SelectListItem> GetAllActorsAsSelectedListItem()
         {
             return _actorsRepository.FindAll().Select(a => new SelectListItem() { Value = a.Id.ToString(), Text = a.Fullname });
+        }
+
+        private IEnumerable<SelectListItem> GetAllMoviesAsSelectedListItem()
+        {
+            return _moviesRepository.FindAll().Select(m => new SelectListItem() { Value = m.Id.ToString(), Text = m.Name });
         }
 
         #endregion

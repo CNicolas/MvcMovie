@@ -4,53 +4,56 @@
 @model MvcMovie.ViewModels.MoviesViewModel
 
 <div class="row">
-    <table class="table table-striped table-responsive">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Realisator</th>
-                <th>Date</th>
-                <th>Genre</th>
-                <th>Actors</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (MovieDto movie in @Model.AllMovies)
-            {
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td>@movie.Name</td>
-                    <td>@movie.Realisator</td>
-                    <td>@movie.Date</td>
-                    <td>@movie.Genre</td>
-                    <td>
-                        <ul>
-                            @foreach (Actor a in @movie.Actors)
-                            {
-                                <li>@a.Fullname</li>
-                            }
-                        </ul>
-                    </td>
+                    <th>Name</th>
+                    <th>Realisator</th>
+                    <th>Date</th>
+                    <th>Genre</th>
+                    <th>Actors</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (MovieDto movie in @Model.AllMovies)
+            {
+                    <tr>
+                        <td>@movie.Name</td>
+                        <td>@movie.Realisator</td>
+                        <td>@movie.Date</td>
+                        <td>@movie.Genre</td>
+                        <td>
+                            <ul>
+                                @foreach (Actor a in @movie.Actors)
+                                {
+                                    <li class="list-group-item">@a.Fullname</li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<button id="addMovieButton" type="button" class="btn btn-primary">Add Movie</button>
+<button id="addMovieButton" type="button" class="btn btn-primary addButton" data-url="@Url.Action("AddMovie")">Add Movie</button>
+<button id="addActorButton" type="button" class="btn btn-primary addButton" data-url="@Url.Action("AddActor")">Add Actor</button>
 
 
-<div id="addMovieModal" class="modal fade" tabindex="-1" role="form" data-url='@Url.Action("AddMovie")'>
+<div id="addModal" class="modal fade" role="form">
 </div>
 
 @section scripts
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#addMovieButton').click(function () {
-                var url = $('#addMovieModal').data('url');
+            $('.addButton').click(function () {
+                var url = $(this).data('url');
 
                 $.get(url, function (data) {
-                    $('#addMovieModal').html(data).modal('show');
+                    $('#addModal').html(data).modal('show');
                 });
             });
         });

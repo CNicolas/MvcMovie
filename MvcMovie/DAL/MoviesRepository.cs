@@ -31,11 +31,11 @@ namespace MvcMovie.DAL
         }
 
 
-        public bool CreateMovie(Movie m)
+        public bool CreateMovie(Movie movie)
         {
             using (MvcMovieContext ctx = new MvcMovieContext())
             {
-                ctx.Movies.Add(m);
+                ctx.Movies.Add(movie);
                 return ctx.SaveChanges() == 1;
             }
         }

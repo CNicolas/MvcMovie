@@ -1,5 +1,6 @@
 ﻿using MvcMovie.Models;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 
 namespace MvcMovie.DAL
@@ -32,6 +33,22 @@ namespace MvcMovie.DAL
                 }
             }
             return new List<Actor>();
+        }
+
+        public bool CreateActor(Actor actor)
+        {
+            try
+            {
+                using (MvcMovieContext ctx = new MvcMovieContext())
+                {
+                    ctx.Actors.Add(actor);
+                    return ctx.SaveChanges() == 1;
+                }
+            }
+            catch (DbUpdateException)
+            {
+                return false;
+            }
         }
     }
 }

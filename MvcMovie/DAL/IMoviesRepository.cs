@@ -4,6 +4,6 @@ namespace MvcMovie.DAL
 {
     public interface IMoviesRepository : IRepository<Movie>
     {
-        bool CreateMovie(Movie m);
+        bool CreateMovie(Movie movie);
     }
 }
