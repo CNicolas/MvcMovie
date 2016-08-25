@@ -3,44 +3,53 @@
 
 @model MvcMovie.ViewModels.MoviesViewModel
 
-<div class="row">
-    <div class="table-responsive">
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Realisator</th>
-                    <th>Date</th>
-                    <th>Genre</th>
-                    <th>Actors</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (MovieDto movie in @Model.AllMovies)
-            {
-                    <tr>
-                        <td>@movie.Name</td>
-                        <td>@movie.Realisator</td>
-                        <td>@movie.Date</td>
-                        <td>@movie.Genre</td>
-                        <td>
-                            <ul>
-                                @foreach (Actor a in @movie.Actors)
-                                {
-                                    <li class="list-group-item">@a.Fullname</li>
-                                }
-                            </ul>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+@if (!string.IsNullOrEmpty(@ViewBag.Error))
+{
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @ViewBag.Error
     </div>
+}
+
+<div class="row">
+    <table class="table table-hover table-responsive">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Realisator</th>
+                <th>Date</th>
+                <th>Genre</th>
+                <th>Actors</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (MovieDto movie in @Model.AllMovies)
+            {
+                <tr>
+                    <td>@movie.Name</td>
+                    <td>@movie.Realisator</td>
+                    <td>@movie.Date</td>
+                    <td>@movie.Genre</td>
+                    <td>
+                        <ul>
+                            @foreach (Actor a in @movie.Actors)
+                            {
+                                <li class="list-group-item">@a.Fullname</li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
 
-<button id="addMovieButton" type="button" class="btn btn-primary addButton" data-url="@Url.Action("AddMovie")">Add Movie</button>
-<button id="addActorButton" type="button" class="btn btn-primary addButton" data-url="@Url.Action("AddActor")">Add Actor</button>
-
+<div class="row">
+    <button id="addMovieButton" type="button" class="btn btn-large btn-primary addButton col-xs-5" data-url="@Url.Action("AddMovie")">Add Movie</button>
+    <button id="addActorButton" type="button" class="btn btn-large btn-primary addButton col-xs-5 col-xs-offset-2" data-url="@Url.Action("AddActor")">Add Actor</button>
+</div>
 
 <div id="addModal" class="modal fade" role="form">
 </div>

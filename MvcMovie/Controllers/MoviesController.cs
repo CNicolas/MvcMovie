@@ -22,7 +22,7 @@ namespace MvcMovie.Controllers
         }
 
         [HttpGet]
-        public ActionResult Index()
+        public ActionResult Index(string error)
         {
             var viewModel = new MoviesViewModel();
             viewModel.AllMovies = _moviesRepository.FindAll().Select(m => new MovieDto(m)).ToList();
@@ -33,6 +33,7 @@ namespace MvcMovie.Controllers
                 m.Actors = _movieActorRepository.GetActorsOfMovie(m.Movie);
             }
 
+            ViewBag.Error = error;
             return View(viewModel);
         }
 
@@ -54,7 +55,11 @@ namespace MvcMovie.Controllers
                 return View(viewModel);
             }
 
-            _moviesRepository.CreateMovie(viewModel.Movie);
+            var successfullyAdded = _moviesRepository.CreateMovie(viewModel.Movie);
+            if (!successfullyAdded)
+            {
+                return Redirect(string.Format("Index?error={0} {1}", viewModel.Movie.Name, "Already exists"));
+            }
 
             if (viewModel.SelectedActors != null)
             {
@@ -91,7 +96,7 @@ namespace MvcMovie.Controllers
             var successfullyAdded = _actorsRepository.CreateActor(viewModel.Actor);
             if (!successfullyAdded)
             {
-                return Json(new { success = false, errorMessage = "Update Error" }, JsonRequestBehavior.AllowGet);
+                return Redirect(string.Format("Index?error={0} {1}", viewModel.Actor.Fullname, "Already exists"));
             }
 
             if (viewModel.SelectedMovies != null)

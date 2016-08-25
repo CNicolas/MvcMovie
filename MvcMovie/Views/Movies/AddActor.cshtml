@@ -20,21 +20,3 @@
         </div>
     </div>
 </div>
-
-
-@section scripts
-{
-    <script type="text/javascript">
-        $.ajax({
-            type: "POST",
-            data: formData,
-            url: "/Forms/GetJobData",
-            dataType: 'json',
-            contentType: false,
-            processData: false,
-            error: function (response) {
-                alert(response.errorMessage);
-            }
-        });
-    </script>
-}
