@@ -25,6 +25,7 @@
                     @Html.TextBoxFor(model => Model.Movie.Genre, new { @class = "form-control" })
                 </div>
                 <div class="form-group">
+                    @Html.LabelFor(model => Model.Actors)
                     @Html.ListBoxFor(model => Model.SelectedActors, Model.Actors, new { @class = "form-control", @multiple = "multiple" })
                 </div>
                 <button type="submit" class="btn btn-success">Submit</button>

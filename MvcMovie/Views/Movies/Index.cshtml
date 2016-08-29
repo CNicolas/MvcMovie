@@ -9,7 +9,7 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-        @ViewBag.Error
+        @ViewBag.ErrorEntry already exists
     </div>
 }
 
@@ -49,6 +49,15 @@
 <div class="row">
     <button id="addMovieButton" type="button" class="btn btn-large btn-primary addButton col-xs-5" data-url="@Url.Action("AddMovie")">Add Movie</button>
     <button id="addActorButton" type="button" class="btn btn-large btn-primary addButton col-xs-5 col-xs-offset-2" data-url="@Url.Action("AddActor")">Add Actor</button>
+</div>
+
+<div class="row">
+    <ul class="list-group">
+        @foreach (Actor a in Model.AllActors)
+        {
+            <li class="list-group-item">@a.Fullname</li>
+        }
+    </ul>
 </div>
 
 <div id="addModal" class="modal fade" role="form">

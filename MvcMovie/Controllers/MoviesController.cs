@@ -58,7 +58,7 @@ namespace MvcMovie.Controllers
             var successfullyAdded = _moviesRepository.CreateMovie(viewModel.Movie);
             if (!successfullyAdded)
             {
-                return Redirect(string.Format("Index?error={0} {1}", viewModel.Movie.Name, "Already exists"));
+                return Redirect(string.Format("Index?error={0}", viewModel.Movie.Name));
             }
 
             if (viewModel.SelectedActors != null)
@@ -96,7 +96,7 @@ namespace MvcMovie.Controllers
             var successfullyAdded = _actorsRepository.CreateActor(viewModel.Actor);
             if (!successfullyAdded)
             {
-                return Redirect(string.Format("Index?error={0} {1}", viewModel.Actor.Fullname, "Already exists"));
+                return Redirect(string.Format("Index?error={0}", viewModel.Actor.Fullname));
             }
 
             if (viewModel.SelectedMovies != null)
